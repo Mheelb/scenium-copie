@@ -10,7 +10,7 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 
 export default function Footer() {
 
-    const baseClass = 'w-[46px] h-[46px] rounded-[10px] flex items-center justify-center mx-[5px] cursor-pointer cursor-pointer';
+    const baseClass = 'w-[46px] h-[46px] rounded-[10px] flex items-center justify-center mx-[5px] cursor-pointer cursor-pointer bg-black/50';
     const baseStyle = {
         border: '1px solid var(--secondary-grey)',
     };

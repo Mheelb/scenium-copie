@@ -79,6 +79,7 @@ export default function Navbar() {
           relative flex items-center justify-between
           w-[931px] h-[57px]
           rounded-[12px]
+          max-2xl:w-[700px]
         "
         style={{ background: 'var(--black)', border: "1px solid var(--nav-active)" }}
       >

@@ -28,7 +28,10 @@ export default function Home() {
           </div>
           <div 
             style={{ border: '1px solid var(--black)' }} 
-            className="bg-black/30 rounded-[12px] text-left mx-[355px] p-[20px] z-10 relative"
+            className="
+              bg-black/30 rounded-[12px] text-left mx-[355px] p-[20px] z-10 relative
+              max-2xl:mx-[150px]
+            "
           >
             <p>Marquez les esprits <span className="font-semibold">sans effort !</span> Découvrez nos scènes événementielles mobiles : un design unique, un impact garanti pour <span className="font-semibold">des mariages, anniversaires et soirées inoubliables.</span></p>
             <p>Design unique, impact garanti.</p>
