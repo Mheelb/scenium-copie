@@ -35,7 +35,7 @@ export default function Home() {
         <section className="text-center h-screen flex flex-col justify-center">
           <AnimatedBackground />
           <Image src="/logo.svg" alt="Logo Scenium" width={593} height={227} className="mx-auto z-10 relative" />
-          <div className="flex items-center justify-center z-999 mt-[40px] mb-[60px]">
+          <div className="flex items-center justify-center z-10 mt-[40px] mb-[60px]">
             <Image src="/crochetL.svg" alt="Crochet" width={17} height={42} />
             <p className="text-[21px] font-semibold" >Un clic, une scène, des souvenirs</p>
             <Image src="/crochetR.svg" alt="Crochet" width={17} height={42} />

@@ -118,7 +118,7 @@ export default function SliderBoxPhone() {
           className="rounded-[6px] object-cover" 
         />
       </div>
-      <h2 style={{ fontSize: "var(--title-social)" }} className="font-semibold">{slide.title}</h2>
+      <h2 style={{ fontSize: "var(--title-social)" }}>{slide.title}</h2>
       <p style={{ fontSize: "var(--txt-social)" }} className="mb-[35px]">{slide.description}</p>
     </>
   );
