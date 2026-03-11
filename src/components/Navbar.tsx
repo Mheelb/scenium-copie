@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import NavbarMobile from './NavbarMobile'
 
 const LINKS = [
   { label: 'Accueil', href: '/' },
@@ -20,6 +21,18 @@ export default function Navbar() {
   const hoverRef = useRef<HTMLDivElement>(null)
 
   const [activeIndex, setActiveIndex] = useState(0)
+  const [isDesktop, setIsDesktop] = useState(true)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const leftLinks = LINKS.slice(0, -1)
   const rightLink = LINKS[LINKS.length - 1]
@@ -30,9 +43,11 @@ export default function Navbar() {
   }, [pathname])
 
   useEffect(() => {
-    moveActive(activeIndex)
-    resetHover()
-  }, [activeIndex])
+    if (isDesktop) {
+      moveActive(activeIndex)
+      resetHover()
+    }
+  }, [activeIndex, isDesktop])
 
   const getLinkEl = (index: number) =>
     containerRef.current?.querySelectorAll<HTMLAnchorElement>('a')[index]
@@ -71,8 +86,12 @@ export default function Navbar() {
     })
   }
 
+  if (!mounted) return null
+
+  if (!isDesktop) return <NavbarMobile />
+
   return (
-    <nav className="flex w-full justify-center fixed z-999">
+    <nav className="flex w-full justify-center fixed z-999 max-lg:pt-[50px]">
       <div
         ref={containerRef}
         className="
@@ -80,6 +99,7 @@ export default function Navbar() {
           w-[931px] h-[57px]
           rounded-[12px]
           max-2xl:w-[700px]
+          max-lg:w-[600px]
         "
         style={{ background: 'var(--black)', border: "1px solid var(--nav-active)" }}
       >

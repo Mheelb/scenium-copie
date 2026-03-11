@@ -29,11 +29,11 @@ export default function Footer() {
     ButtonAnimation(bgRef, btnRef);
 
   return (
-      <footer className='flex justify-evenly relative mt-[100px] py-[200px] items-center' ref={footerRef} >
+      <footer className='grid grid-cols-1 md:grid-cols-2 xl:flex xl:flex-row justify-evenly relative mt-[100px] py-[100px] xl:py-[200px] items-center gap-[60px] xl:gap-0 justify-items-center' ref={footerRef} >
         <AnimatedBackground fadeDirection="top" />
-        <div className='z-999 flex items-center flex-col'>
-            <Image src="/logo.svg" alt="Logo Scenium" width={241} height={92} className='pb-[50px]' />
-            <div className='pb-[20px]'>
+        <div className='z-999 flex items-center flex-col md:col-span-1 xl:w-auto'>
+            <Image src="/logoN.svg" alt="Logo Scenium" width={241} height={92} className='pb-[50px] lg:block hidden' />
+            <div className='pb-[20px] text-center'>
                 <p style={{ fontSize: 'var(--footer-title)' }} className='pb-[15px]' >Restez connecté</p>
                 <div className="flex justify-center">
                     <div className={`${baseClass}`} style={ baseStyle } >
@@ -50,7 +50,7 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <div>
+            <div className='text-center'>
                 <p style={{ fontSize: 'var(--footer-title)' }} className='pb-[15px]' >Pour ne rien louper</p>
                 <div className="flex" >
                     <input type="text" className={`${baseInput}, mr-[15px]`}  style={ baseStyle } placeholder='Email' />
@@ -62,16 +62,16 @@ export default function Footer() {
                 </div>
             </div>
         </div>
-        <div className='z-999'>
+        <div className='z-999 text-center xl:text-left md:col-span-1 xl:w-auto'>
             <p style={{ fontSize: 'var(--footer-title)' }} >Informations</p>
-            <ul>
+            <ul className='flex flex-col items-center xl:items-start'>
                 <li><Link href="/about" style={{ fontSize: 'var(--footer-links)' }}>A propos</Link></li>
                 <li><Link href="/scenes" style={{ fontSize: 'var(--footer-links)' }}>Nos scènes</Link></li>
             </ul>
         </div>
-        <div className='z-999'>
+        <div className='z-999 text-center xl:text-left md:col-span-2 xl:col-span-1 xl:w-auto'>
             <p style={{ fontSize: 'var(--footer-title)' }} >Informations pratiques</p>
-            <ul>
+            <ul className='flex flex-col items-center xl:items-start'>
                 <li><Link href="/legal" style={{ fontSize: 'var(--footer-links)' }}>informations légales</Link></li>
                 <li><Link href="/privacy" style={{ fontSize: 'var(--footer-links' }}>Politique de confidentialité</Link></li>
             </ul>

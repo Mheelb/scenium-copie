@@ -1,7 +1,9 @@
 import { useEffect, RefObject } from 'react';
 
-export function useGlowBorder(ref: RefObject<HTMLElement>) {
+export function useGlowBorder(ref: RefObject<HTMLElement | null>) {
   useEffect(() => {
+    if (typeof window === 'undefined' || window.innerWidth < 1024) return;
+    
     const el = ref.current;
     if (!el) return;
 
