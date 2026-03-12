@@ -82,7 +82,8 @@ export default function SliderBoxPhone() {
         flushSync(() => {
           setActiveIndex((i) => (i + 1) % total);
         });
-        gsap.set([left, right, next], { clearProps: "transform" });
+        // Filter out null values (like 'right' when isSingle is true)
+        gsap.set([left, right, next].filter((el): el is HTMLDivElement => el !== null), { clearProps: "transform" });
         isAnimating.current = false;
       },
     });
@@ -101,7 +102,7 @@ export default function SliderBoxPhone() {
     return () => clearInterval(interval);
   }, [activeIndex, isSingle]);
 
-  const cardStyle = { 
+  const cardStyle: React.CSSProperties = { 
     background: 'var(--grey)', 
     border: '2px solid var(--border-grey)',
     borderRadius: '12px',

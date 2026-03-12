@@ -90,7 +90,7 @@ describe('ContactForm', () => {
     fireEvent.change(screen.getByDisplayValue('Type d’événement'), { target: { value: 'anniversaire' } })
     
     const dateBtn = screen.getByTestId('date-picker-btn')
-    fireEvent.click(dateBtn) // Sets the date state in ContactForm
+    fireEvent.click(dateBtn)
     
     fireEvent.change(screen.getByDisplayValue('Box souhaité'), { target: { value: 'box1' } })
     

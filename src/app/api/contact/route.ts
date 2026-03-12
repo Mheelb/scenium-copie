@@ -8,17 +8,25 @@ import InformationEmail from '@/emails/InformationEmail'
 export async function POST(req: Request) {
   const rawPayload = await req.json()
   
-  // Basic sanitization: trim strings and enforce length limits
-  const sanitize = (val: unknown, maxLen: number) => 
-    typeof val === 'string' ? val.trim().slice(0, maxLen) : val
+  const sanitize = (val: unknown, maxLen: number): string => 
+    typeof val === 'string' ? val.trim().slice(0, maxLen) : ''
 
-  const payload = {
-    type: rawPayload.type,
+  interface ContactPayload {
+    type: 'reservation' | 'information'
+    email: string
+    message: string
+    boxes: string[]
+    date: string
+    fax_number: string
+  }
+
+  const payload: ContactPayload = {
+    type: rawPayload.type === 'reservation' ? 'reservation' : 'information',
     email: sanitize(rawPayload.email, 255),
     message: sanitize(rawPayload.message, 5000),
     boxes: Array.isArray(rawPayload.boxes) ? rawPayload.boxes.map((b: unknown) => sanitize(b, 50)) : [],
     date: sanitize(rawPayload.date, 20),
-    fax_number: rawPayload.fax_number // Honeypot
+    fax_number: sanitize(rawPayload.fax_number, 255)
   }
 
   const { type, email, message, boxes, date, fax_number } = payload
@@ -26,15 +34,12 @@ export async function POST(req: Request) {
   console.log('--- NEW CONTACT SUBMISSION ---')
   console.log('Payload:', JSON.stringify(payload, null, 2))
 
-  // 1. Honeypot check
   if (fax_number) {
     console.warn('BOT DETECTED: Honeypot field filled')
     return NextResponse.json({ success: true })
   }
 
-  // 2. Rate limiting check
   if (process.env.UPSTASH_REDIS_REST_URL) {
-    // Better IP detection for Docker/Vercel
     const forwarded = req.headers.get('x-forwarded-for')
     const ip = forwarded ? forwarded.split(',')[0] : (req.headers.get('x-real-ip') || '127.0.0.1')
     
@@ -51,10 +56,9 @@ export async function POST(req: Request) {
     }
   }
 
-  // Validation: Email and Type are always required.
-  if (!type || !email) {
-    console.error('VALIDATION FAILED: Missing type or email', { type, email })
-    return NextResponse.json({ error: 'Champs requis manquants (Email ou Type)' }, { status: 400 })
+  if (!email) {
+    console.error('VALIDATION FAILED: Missing email')
+    return NextResponse.json({ error: 'Email requis' }, { status: 400 })
   }
 
   try {
@@ -69,8 +73,8 @@ export async function POST(req: Request) {
           : 'Nouvelle demande de renseignement',
       react:
         type === 'reservation'
-          ? ReservationEmail({ email, message: message || '', boxes: boxes || [], date: date || '' })
-          : InformationEmail({ email, message: message || '' }),
+          ? ReservationEmail({ email, message, boxes, date })
+          : InformationEmail({ email, message }),
     })
 
     if (error) {
